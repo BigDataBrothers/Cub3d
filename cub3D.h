@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/21 19:03:45 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:17:53 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct s_data
 	char	*ea_texture;
 	int		sol[3];
 	int		plafond[3];
-	char	**setting;
 	char	**map;
 }	t_data;
 

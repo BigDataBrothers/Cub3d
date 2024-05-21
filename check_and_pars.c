@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/21 19:08:50 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/21 20:02:57 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,41 +45,37 @@ int set_setting(t_data *data)
 	while(data->map[x])
 	{
 		p = data->map[x];
-        while (*p && *p == ' ')
+        while (*p && is_space(*p))
             p++;
-		if (!ft_strncmp(p, "NO ", 3) || !ft_strncmp(p, "NO\t", 3))
+		if ((!ft_strncmp(p, "NO ", 3) || !ft_strncmp(p, "NO\t", 3)) && data->no_texture == NULL)
 		{
 			data->no_texture = ft_strdup(p + 3);
 			if (!data->no_texture)
-				return (1);  // prévoir les free
+				return (0);  // prévoir les free
 			x++;
-			continue;
 		}			
-		if (!ft_strncmp(p, "SO ", 3) || !ft_strncmp(p, "SO\t", 3))
+		else if ((!ft_strncmp(p, "SO ", 3) || !ft_strncmp(p, "SO\t", 3)) && data->so_texture == NULL)
 		{
 			data->so_texture = ft_strdup(p + 3);
 			if (!data->so_texture)
-				return (1);  // prévoir les free
+				return (0);  // prévoir les free
 			x++;
-			continue;
 		}
-		if (!ft_strncmp(p, "WE ", 3) || !ft_strncmp(p, "WE\t", 3))
+		else if ((!ft_strncmp(p, "WE ", 3) || !ft_strncmp(p, "WE\t", 3)) && data->we_texture == NULL)
 		{
 			data->we_texture = ft_strdup(p + 3);
 			if (!data->we_texture)
-				return (1);  // prévoir les free
+				return (0);  // prévoir les free
 			x++;
-			continue;
 		}
-		if (!ft_strncmp(p, "EA ", 3) || !ft_strncmp(p, "EA\t", 3))
+		else if ((!ft_strncmp(p, "EA ", 3) || !ft_strncmp(p, "EA\t", 3)) && data->ea_texture == NULL)
 		{
 			data->ea_texture = ft_strdup(p + 3);
 			if (!data->ea_texture)
-				return (1);  // prévoir les free	
+				return (0);  // prévoir les free	
 			x++;
-			continue;
 		}
-		if (!ft_strncmp(p, "F ", 2))
+		else if (!ft_strncmp(p, "F ", 2) && (data->sol[0] == -1 && data->sol[1] == -1 && data->sol[2] == -1))
         {
             char *q = p + 2;
             int r = ft_atoi(q);
@@ -93,9 +89,8 @@ int set_setting(t_data *data)
 			data->sol[1] = g;
 			data->sol[2] = b;
             x++;
-            continue;
         }
-        if (!ft_strncmp(p, "C ", 2))
+        else if (!ft_strncmp(p, "C ", 2) && (data->plafond[0] == -1 && data->plafond[1] == -1 && data->plafond[2] == -1))
         {
             char *q = p + 2;
             int r = ft_atoi(q);
@@ -109,18 +104,26 @@ int set_setting(t_data *data)
 			data->plafond[1] = g;
 			data->plafond[2] = b;
             x++;
-            continue;
         }
-		x++;
+		else if(data->no_texture != NULL && data->so_texture != NULL && data->ea_texture != NULL && data->we_texture != NULL &&
+			data->sol[0] != -1 && data->sol[1] != -1 && data->sol[2] != -1 && data->plafond[0] != -1 &&
+			data->plafond[1] != -1 && data->plafond[2] != -1)
+				return (++x);
+		else if(*p >= 33 && *p <= 126)
+			return(err("Error, Setting not good\n"), 0);
+		else
+			x++;
 	}
 	return (0);
 }
 
 int check_and_pars(char **argv)
 {
+	int		x;
 	char    *map_s;
 	t_data  *data;
 
+	x = 0;
 	map_s = NULL;
 	map_s = fill_map_data(argv[1]);
 	if(!map_s)
@@ -132,7 +135,9 @@ int check_and_pars(char **argv)
 	data->map = ft_split(map_s, '\n');
 	if(!data->map)
 		return (free(map_s), free(data), 1);
-	if(set_setting(data))
+	x = set_setting(data);
+	if(x == 0)
 		return (free_tab(data->map) ,free(map_s), free(data), 1);
+	printf(BLUE"x: %d"RESET"\n", x);
 	return (0);
 }
