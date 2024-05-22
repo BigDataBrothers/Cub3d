@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/21 20:02:57 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/22 19:41:03 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@ int len_no_space(char *str)
 	return (res);
 }
 
+void	print_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while(tab[++i])
+		printf("tab[%d] = %s\n", i, tab[i]);
+}
+
 int set_setting(t_data *data)
 {
 	int 	x;
@@ -45,35 +54,36 @@ int set_setting(t_data *data)
 	while(data->map[x])
 	{
 		p = data->map[x];
+		printf("x = %d 1 = %s\n", x, data->map[x]);
+		
         while (*p && is_space(*p))
             p++;
+		// printf("2 = %s\n", data->map[x]);
 		if ((!ft_strncmp(p, "NO ", 3) || !ft_strncmp(p, "NO\t", 3)) && data->no_texture == NULL)
 		{
 			data->no_texture = ft_strdup(p + 3);
 			if (!data->no_texture)
 				return (0);  // prévoir les free
-			x++;
 		}			
 		else if ((!ft_strncmp(p, "SO ", 3) || !ft_strncmp(p, "SO\t", 3)) && data->so_texture == NULL)
 		{
 			data->so_texture = ft_strdup(p + 3);
 			if (!data->so_texture)
 				return (0);  // prévoir les free
-			x++;
 		}
 		else if ((!ft_strncmp(p, "WE ", 3) || !ft_strncmp(p, "WE\t", 3)) && data->we_texture == NULL)
 		{
 			data->we_texture = ft_strdup(p + 3);
 			if (!data->we_texture)
 				return (0);  // prévoir les free
-			x++;
 		}
 		else if ((!ft_strncmp(p, "EA ", 3) || !ft_strncmp(p, "EA\t", 3)) && data->ea_texture == NULL)
 		{
 			data->ea_texture = ft_strdup(p + 3);
 			if (!data->ea_texture)
 				return (0);  // prévoir les free	
-			x++;
+			printf("X value is : %d\n", x);	
+
 		}
 		else if (!ft_strncmp(p, "F ", 2) && (data->sol[0] == -1 && data->sol[1] == -1 && data->sol[2] == -1))
         {
@@ -88,7 +98,6 @@ int set_setting(t_data *data)
             data->sol[0] = r;
 			data->sol[1] = g;
 			data->sol[2] = b;
-            x++;
         }
         else if (!ft_strncmp(p, "C ", 2) && (data->plafond[0] == -1 && data->plafond[1] == -1 && data->plafond[2] == -1))
         {
@@ -103,7 +112,6 @@ int set_setting(t_data *data)
             data->plafond[0] = r;
 			data->plafond[1] = g;
 			data->plafond[2] = b;
-            x++;
         }
 		else if(data->no_texture != NULL && data->so_texture != NULL && data->ea_texture != NULL && data->we_texture != NULL &&
 			data->sol[0] != -1 && data->sol[1] != -1 && data->sol[2] != -1 && data->plafond[0] != -1 &&
@@ -111,11 +119,59 @@ int set_setting(t_data *data)
 				return (++x);
 		else if(*p >= 33 && *p <= 126)
 			return(err("Error, Setting not good\n"), 0);
-		else
-			x++;
+		x++;
 	}
 	return (0);
 }
+
+//
+char *ft_strncpy(char *s1, char *s2, int n)
+{
+	int i = -1;
+
+	while (++i < n && s2[i])
+		s1[i] = s2[i];
+	s1[i] = '\0';
+	return (s1);
+}
+
+char	**ft_split(char *str)
+{
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	int wc = 0;
+	
+	while (str[i])
+	{
+		if (str[i] && (str[i] == '\n'))
+			i++;
+		if (str[i])
+			wc++;
+		while (str[i] && (/str[i] != '\n'))
+			i++;
+	}
+	
+	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
+	i = 0;
+	
+	while (str[i])
+	{
+		if (str[i] && (/*str[i] == ' ' || str[i] == '\t' || */str[i] == '\n'))
+			i++;
+		j = i;
+		while (str[i] && (/*str[i] != ' ' && str[i] != '\t' && */str[i] != '\n'))
+			i++;
+		if (i > j)
+		{
+			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
+			ft_strncpy(out[k++], &str[j], i - j);
+		}
+	}
+	out[k] = NULL;
+	return (out);
+}
+//
 
 int check_and_pars(char **argv)
 {
@@ -132,9 +188,10 @@ int check_and_pars(char **argv)
 	if(!data)
 		return(free(map_s), 1);
 	data_zero(data);
-	data->map = ft_split(map_s, '\n');
+	data->map = ft_split(map_s);
 	if(!data->map)
 		return (free(map_s), free(data), 1);
+	print_tab(data->map);
 	x = set_setting(data);
 	if(x == 0)
 		return (free_tab(data->map) ,free(map_s), free(data), 1);

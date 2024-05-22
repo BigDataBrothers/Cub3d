@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/21 19:17:53 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/22 19:25:56 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,14 @@ char	*fill_map_data2(int *rd, int fd, char *map, char *buff);
 void	data_zero(t_data *a_data);
 //split
 int		ft_cntword(char *s, char c, int n);
-char	**ft_split(char *s, char c);
+// char	**ft_split(char *s, char c);
 void	ft_split_1(char *s, char c, t_split *split, int j);
+//
+// char	**ft_split(char const *str, char c);
+// static char	*ft_stralloc(char *str, char c, int *k);
+// static void	ft_strcpy(char *word, char *str, char c, int j);
+// static int	ft_wordcount(char *str, char c);
+// static void	ft_freeup(char *strs);
 //free
 void	free_tab(char **tab);
 

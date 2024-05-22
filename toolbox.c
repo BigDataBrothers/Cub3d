@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:28:23 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/21 19:05:14 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:56:53 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 int	is_space(int c)
 {
-	if (c == ' ' || c == '\t')
+	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
 	return (0);
 }
