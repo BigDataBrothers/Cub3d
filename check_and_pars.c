@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/22 19:41:03 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:49:49 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,53 +125,128 @@ int set_setting(t_data *data)
 }
 
 //
-char *ft_strncpy(char *s1, char *s2, int n)
-{
-	int i = -1;
+// char *ft_strncpy(char *s1, char *s2, int n)
+// {
+// 	int i = -1;
 
-	while (++i < n && s2[i])
-		s1[i] = s2[i];
-	s1[i] = '\0';
-	return (s1);
-}
+// 	while (++i < n && s2[i])
+// 		s1[i] = s2[i];
+// 	s1[i] = '\0';
+// 	return (s1);
+// }
 
-char	**ft_split(char *str)
+// char	**ft_split(char *str)
+// {
+// 	int i = 0;
+// 	int j = 0;
+// 	int k = 0;
+// 	int wc = 0;
+	
+// 	printf(YELLOW"str: %s\n", str);
+// 	while (str[i])
+// 	{
+// 		printf(GREEN"str[i]: %c i = %d\n", str[i], i);
+// 		while(str[i] && str[i] == '\n')
+// 		{
+// 			printf("laaaa\n");
+// 			if (str[i] && (str[i] == '\n') && str[i + 1] && (str[i + 1] == '\n'))
+// 			{
+// 				printf("----------+2\n");
+// 				i+=2;
+// 				wc++;
+// 			}
+// 			else
+// 				i++;
+// 		}
+// 		if (str[i])
+// 			wc++;
+// 		while (str[i] && (str[i] != '\n')){
+// 				printf(GREEN"str[i]: %c i = %d\n", str[i], i);
+
+// 			i++;
+			
+// 		}
+// 	}
+	
+// 	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
+// 	i = 0;
+	
+// 	while (str[i])
+// 	{
+// 		while(str[i] && str[i] == '\n')
+// 		{
+// 			if (str[i] && (str[i] == '\n') && str[i + 1] && (str[i + 1] == '\n'))
+// 			{
+// 				i+=2;
+// 				break;
+// 			}
+// 			else if(str[i] && (str[i] == '\n') && (!str[i + 1] || str[i + 1] != '\n'))
+// 				i++;
+// 		}
+// 		j = i;
+// 		while (str[i] && (str[i] != '\n'))
+// 			i++;
+// 		if (i > j)
+// 		{
+// 			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
+// 			if(!out[k])
+// 				return (NULL);
+// 			ft_strncpy(out[k++], &str[j], i - j);
+// 		}
+// 		else if(i == j)
+// 		{
+// 			out[k] = (char *)malloc(sizeof(char));
+// 			out[k++][0] = '\0';
+// 		}
+// 	}
+// 	out[k] = NULL;
+// 	return (out);
+// }
+// //
+
+char	*set_back_n(char *str)
 {
-	int i = 0;
-	int j = 0;
-	int k = 0;
-	int wc = 0;
-	
-	while (str[i])
+	int		i;
+	int		c;
+
+	// i = -1;
+	// c = 0;
+	// while(str[++i])
+	// 	if(str[i] == '\n' && (str[i + 1] && str[i + 1] == '\n'))
+	// 		c++;
+	// strn = malloc(sizeof(char) * (i - c) + 1);
+	// if(!strn)
+	// 	return (NULL); // prevoir les free
+	// i = 0;
+	// c = 0;
+	// while(str[i])
+	// {
+	// 	if(str[i] == '\n')
+	// 	{
+	// 		strn[c++] = '*';
+	// 		while(str[i] && str[i] == '\n')
+	// 			i++;
+	// 	}
+	// 	else
+	// 		strn[c++] = str[i++];
+	// }
+	// strn[c] = '\0';
+	// free(str);
+	// return (strn);
+	i = -1;
+	c = 0;
+	while(str[++i])
 	{
-		if (str[i] && (str[i] == '\n'))
-			i++;
-		if (str[i])
-			wc++;
-		while (str[i] && (/str[i] != '\n'))
-			i++;
-	}
-	
-	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
-	i = 0;
-	
-	while (str[i])
-	{
-		if (str[i] && (/*str[i] == ' ' || str[i] == '\t' || */str[i] == '\n'))
-			i++;
-		j = i;
-		while (str[i] && (/*str[i] != ' ' && str[i] != '\t' && */str[i] != '\n'))
-			i++;
-		if (i > j)
+		if(str[i] == '\n' && str[i + 1] && str[i + 1] == '\n')
 		{
-			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
-			ft_strncpy(out[k++], &str[j], i - j);
+			str[i] = '*';
+			// while(str[i] && str[i] == '\n')
+			// 	i++;
 		}
 	}
-	out[k] = NULL;
-	return (out);
+	// free(str);
+	return (str);
 }
-//
 
 int check_and_pars(char **argv)
 {
@@ -182,19 +257,22 @@ int check_and_pars(char **argv)
 	x = 0;
 	map_s = NULL;
 	map_s = fill_map_data(argv[1]);
+	printf("map_s: %s\n", map_s);
+	map_s = set_back_n(map_s);
+	printf("map_s back_n: %s\n", map_s);
 	if(!map_s)
 		return (1);
 	data = malloc(sizeof(t_data));
 	if(!data)
 		return(free(map_s), 1);
 	data_zero(data);
-	data->map = ft_split(map_s);
+	data->map = ft_split(map_s, '\n');
+	print_tab(data->map);
 	if(!data->map)
 		return (free(map_s), free(data), 1);
-	print_tab(data->map);
+	// print_tab(data->map);
 	x = set_setting(data);
 	if(x == 0)
-		return (free_tab(data->map) ,free(map_s), free(data), 1);
-	printf(BLUE"x: %d"RESET"\n", x);
+		return (/*free_tab(data->map) ,free(map_s), free(data),*/ 1);
 	return (0);
 }
