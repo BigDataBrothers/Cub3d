@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/23 18:49:49 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:49:31 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int len_no_space(char *str)
 
 void	print_tab(char **tab)
 {
+	if (!tab)
+		return;
 	int	i;
 
 	i = -1;
@@ -54,7 +56,7 @@ int set_setting(t_data *data)
 	while(data->map[x])
 	{
 		p = data->map[x];
-		printf("x = %d 1 = %s\n", x, data->map[x]);
+		// printf("x = %d 1 = %s\n", x, data->map[x]);
 		
         while (*p && is_space(*p))
             p++;
@@ -82,7 +84,6 @@ int set_setting(t_data *data)
 			data->ea_texture = ft_strdup(p + 3);
 			if (!data->ea_texture)
 				return (0);  // prévoir les free	
-			printf("X value is : %d\n", x);	
 
 		}
 		else if (!ft_strncmp(p, "F ", 2) && (data->sol[0] == -1 && data->sol[1] == -1 && data->sol[2] == -1))
@@ -116,12 +117,17 @@ int set_setting(t_data *data)
 		else if(data->no_texture != NULL && data->so_texture != NULL && data->ea_texture != NULL && data->we_texture != NULL &&
 			data->sol[0] != -1 && data->sol[1] != -1 && data->sol[2] != -1 && data->plafond[0] != -1 &&
 			data->plafond[1] != -1 && data->plafond[2] != -1)
-				return (++x);
+				return (printf(BACK_PURPLE"iii"RST"\n"), ++x);
 		else if(*p >= 33 && *p <= 126)
-			return(err("Error, Setting not good\n"), 0);
+			return(printf(BACK_GREEN"iii"RST"\n") ,err("Error, Setting not good\n"), 0);
 		x++;
 	}
-	return (0);
+	if(data->no_texture != NULL && data->so_texture != NULL && data->ea_texture != NULL && data->we_texture != NULL &&
+			data->sol[0] != -1 && data->sol[1] != -1 && data->sol[2] != -1 && data->plafond[0] != -1 &&
+			data->plafond[1] != -1 && data->plafond[2] != -1)
+				return (printf(BACK_YELLOW"iii"RST"\n"), ++x);
+	printf(BACK_RED"iii"RST"\n");
+	return(err("Error, Setting not good\n"), 0);
 }
 
 //
@@ -209,35 +215,11 @@ char	*set_back_n(char *str)
 	int		i;
 	int		c;
 
-	// i = -1;
-	// c = 0;
-	// while(str[++i])
-	// 	if(str[i] == '\n' && (str[i + 1] && str[i + 1] == '\n'))
-	// 		c++;
-	// strn = malloc(sizeof(char) * (i - c) + 1);
-	// if(!strn)
-	// 	return (NULL); // prevoir les free
-	// i = 0;
-	// c = 0;
-	// while(str[i])
-	// {
-	// 	if(str[i] == '\n')
-	// 	{
-	// 		strn[c++] = '*';
-	// 		while(str[i] && str[i] == '\n')
-	// 			i++;
-	// 	}
-	// 	else
-	// 		strn[c++] = str[i++];
-	// }
-	// strn[c] = '\0';
-	// free(str);
-	// return (strn);
 	i = -1;
 	c = 0;
 	while(str[++i])
 	{
-		if(str[i] == '\n' && str[i + 1] && str[i + 1] == '\n')
+		if(str[i] == '\n' && str[i - 1] && str[i - 1] == '\n')
 		{
 			str[i] = '*';
 			// while(str[i] && str[i] == '\n')
@@ -246,6 +228,30 @@ char	*set_back_n(char *str)
 	}
 	// free(str);
 	return (str);
+}
+
+int	first_map_line(char *s, char c)
+{
+	int	i = 6;
+	int	res = 0;
+
+	while (*s)
+	{
+		while (*s && *s == c)
+		{
+			s++;
+			res++;
+		}
+		while (*s && *s != c)
+		{
+			s++;
+			res++;
+		}
+		i--;
+		if(i == 0)
+			break;
+	}
+	return (res);
 }
 
 int check_and_pars(char **argv)
@@ -257,9 +263,6 @@ int check_and_pars(char **argv)
 	x = 0;
 	map_s = NULL;
 	map_s = fill_map_data(argv[1]);
-	printf("map_s: %s\n", map_s);
-	map_s = set_back_n(map_s);
-	printf("map_s back_n: %s\n", map_s);
 	if(!map_s)
 		return (1);
 	data = malloc(sizeof(t_data));
@@ -267,12 +270,17 @@ int check_and_pars(char **argv)
 		return(free(map_s), 1);
 	data_zero(data);
 	data->map = ft_split(map_s, '\n');
-	print_tab(data->map);
 	if(!data->map)
 		return (free(map_s), free(data), 1);
-	// print_tab(data->map);
+	print_tab(data->map);
 	x = set_setting(data);
+	print_data(data);
+	int tte = first_map_line(map_s, '\n');
+	map_s += tte;
+	free_tab(data->map);
 	if(x == 0)
-		return (/*free_tab(data->map) ,free(map_s), free(data),*/ 1);
+		return (free(map_s), free(data), 1);
+	data->map = ft_split_m(map_s, '\n');
+	print_tab(data->map);
 	return (0);
 }
