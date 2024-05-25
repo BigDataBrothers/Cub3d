@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/24 20:49:31 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:59:02 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,8 @@ int set_setting(t_data *data)
 	while(data->map[x])
 	{
 		p = data->map[x];
-		// printf("x = %d 1 = %s\n", x, data->map[x]);
-		
         while (*p && is_space(*p))
             p++;
-		// printf("2 = %s\n", data->map[x]);
 		if ((!ft_strncmp(p, "NO ", 3) || !ft_strncmp(p, "NO\t", 3)) && data->no_texture == NULL)
 		{
 			data->no_texture = ft_strdup(p + 3);
@@ -84,7 +81,6 @@ int set_setting(t_data *data)
 			data->ea_texture = ft_strdup(p + 3);
 			if (!data->ea_texture)
 				return (0);  // prévoir les free	
-
 		}
 		else if (!ft_strncmp(p, "F ", 2) && (data->sol[0] == -1 && data->sol[1] == -1 && data->sol[2] == -1))
         {
@@ -130,86 +126,6 @@ int set_setting(t_data *data)
 	return(err("Error, Setting not good\n"), 0);
 }
 
-//
-// char *ft_strncpy(char *s1, char *s2, int n)
-// {
-// 	int i = -1;
-
-// 	while (++i < n && s2[i])
-// 		s1[i] = s2[i];
-// 	s1[i] = '\0';
-// 	return (s1);
-// }
-
-// char	**ft_split(char *str)
-// {
-// 	int i = 0;
-// 	int j = 0;
-// 	int k = 0;
-// 	int wc = 0;
-	
-// 	printf(YELLOW"str: %s\n", str);
-// 	while (str[i])
-// 	{
-// 		printf(GREEN"str[i]: %c i = %d\n", str[i], i);
-// 		while(str[i] && str[i] == '\n')
-// 		{
-// 			printf("laaaa\n");
-// 			if (str[i] && (str[i] == '\n') && str[i + 1] && (str[i + 1] == '\n'))
-// 			{
-// 				printf("----------+2\n");
-// 				i+=2;
-// 				wc++;
-// 			}
-// 			else
-// 				i++;
-// 		}
-// 		if (str[i])
-// 			wc++;
-// 		while (str[i] && (str[i] != '\n')){
-// 				printf(GREEN"str[i]: %c i = %d\n", str[i], i);
-
-// 			i++;
-			
-// 		}
-// 	}
-	
-// 	char **out = (char **)malloc(sizeof(char *) * (wc + 1));
-// 	i = 0;
-	
-// 	while (str[i])
-// 	{
-// 		while(str[i] && str[i] == '\n')
-// 		{
-// 			if (str[i] && (str[i] == '\n') && str[i + 1] && (str[i + 1] == '\n'))
-// 			{
-// 				i+=2;
-// 				break;
-// 			}
-// 			else if(str[i] && (str[i] == '\n') && (!str[i + 1] || str[i + 1] != '\n'))
-// 				i++;
-// 		}
-// 		j = i;
-// 		while (str[i] && (str[i] != '\n'))
-// 			i++;
-// 		if (i > j)
-// 		{
-// 			out[k] = (char *)malloc(sizeof(char) * ((i - j) + 1));
-// 			if(!out[k])
-// 				return (NULL);
-// 			ft_strncpy(out[k++], &str[j], i - j);
-// 		}
-// 		else if(i == j)
-// 		{
-// 			out[k] = (char *)malloc(sizeof(char));
-// 			out[k++][0] = '\0';
-// 		}
-// 	}
-// 	out[k] = NULL;
-// 	return (out);
-// }
-// //
-
 char	*set_back_n(char *str)
 {
 	int		i;
@@ -254,6 +170,34 @@ int	first_map_line(char *s, char c)
 	return (res);
 }
 
+int	check_char(char one_char)
+{
+	if(one_char == '0' || one_char == '1' || one_char == ' ' || one_char == '\t' \
+		|| one_char == 'N' || one_char == 'S' || one_char == 'E' || one_char == 'W')
+			return (0);
+	return (1);			
+}
+
+int	check_map(t_data *data)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	while(data->map[x])
+	{
+		y = 0;
+		while(data->map[x][y])
+		{
+			if(check_char(data->map[x][y]))
+				return(err("Error\n"), err("The following character is not authorized [0,1,N,S,E,W] != "), printf("[%c]\n", data->map[x][y]),1);
+			y++;
+		}
+		x++;
+	}
+	return (0);
+}
+
 int check_and_pars(char **argv)
 {
 	int		x;
@@ -281,6 +225,10 @@ int check_and_pars(char **argv)
 	if(x == 0)
 		return (free(map_s), free(data), 1);
 	data->map = ft_split_m(map_s, '\n');
+	if(!data->map)
+		return (free(map_s), free(data), 1);
 	print_tab(data->map);
+	if(check_map(data))
+		return (1);
 	return (0);
 }

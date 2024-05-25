@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:00:36 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/24 20:49:11 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:35:41 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,13 @@ int	ft_cntword_2(char *s, char c, int n)
 		cmp = s;
 		cmp++;
 		if (*s && *s == c && *cmp && *cmp == c)
+		{
+			while(*cmp && (*cmp == c || is_space(*cmp)))
+				cmp++;
+			if(!*cmp)
+				return (n);
 			return (err("Error\nMap not good\n"), -1);
+		}
 		else if (*s && *s == c)
 			s++;
 		if (*s && *s != c)
