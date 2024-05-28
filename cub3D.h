@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/24 20:02:55 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/28 20:01:07 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ int		is_char(int c);
 int		ft_strncmp(char *s1, char *s2, int len);
 char	*ft_strdup(char *s);
 char	*ft_strchr(char *str, int wanted);
-int		ft_atoi(char *nptr);
+int		ft_atoi(char *nptr, char c);
+int		ft_tab_col_len(char **tab, int y);
 
 int		is_wspace_line(char *str);
 //file_map
@@ -128,14 +129,9 @@ char	**ft_split_m(char *s, char c);
 void	ft_split_1(char *s, char c, t_split *split, int j);
 void	ft_split_3(char  *s, char c, t_split *split, int j);
 int		ft_cntword_2(char *s, char c, int n);
-//
-// char	**ft_split(char const *str, char c);
-// static char	*ft_stralloc(char *str, char c, int *k);
-// static void	ft_strcpy(char *word, char *str, char c, int j);
-// static int	ft_wordcount(char *str, char c);
-// static void	ft_freeup(char *strs);
-//free
 void	free_tab(char **tab);
 void	print_data(t_data *data);
 
+
+//Ficher vide pu remplis d'espace valgrind crash.
 #endif

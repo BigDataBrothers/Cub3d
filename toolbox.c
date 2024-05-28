@@ -6,11 +6,43 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:28:23 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/22 18:56:53 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:47:56 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+// int ft_tab_col_len(char **tab, int y) {
+//     int x = 0;
+
+//     if (tab == NULL) {
+//         return 0;
+//     }
+
+//     while (tab[x]) {
+//         printf("Vérification de tab[%d]: %s\n", x, tab[x]);
+//         if (ft_strlen(tab[x]) < y) {
+//             printf("Longueur de tab[%d] (%d) est inférieure à %d\n", x, ft_strlen(tab[x]), y);
+//             break;
+//         }
+//         x++;
+//     }
+//     return x;
+// }
+int ft_tab_col_len(char **tab, int y)
+{
+    int x = 0;
+
+    if (tab == NULL)
+        return 0;
+    while (tab[x])
+	{
+        if (ft_strlen(tab[x]) < y)
+            break;
+        x++;
+    }
+    return x;
+}
 
 int	ft_strlen(char *str)
 {
@@ -190,28 +222,42 @@ char	*ft_strchr(char *str, int character)
 	return (first_occurrence);
 }
 
-int	ft_atoi(char *nptr)
+int	ft_isdigit(int c)
 {
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+
+int	ft_atoi(char *nptr, char c)
+{
+	// int	nul;
 	int	i;
 	int	nb;
 	int	minus;
 
+	// nul = 1;
 	i = 0;
 	nb = 0;
 	minus = 1;
-	while (nptr[i] && (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13)))
-		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			minus *= -1;
-		i++;
-	}
+	i = skip_space(nptr, i);
+	if (nptr[i] == '\0' || !ft_isdigit(nptr[i]))
+		return (printf(BACK_RED"LLL"RST"\n") ,-1);
 	while ((nptr[i]) && (nptr[i] >= '0' && nptr[i] <= '9'))
 	{
 		if ((nptr[i] >= '0' && nptr[i] <= '9'))
+		{
 			nb = nb * 10 + (nptr[i] - '0');
+			// nul = 0;
+		}
 		i++;
+	}
+	if(nptr[i] && is_space(nptr[i]))
+	{
+		i = skip_space(nptr, i);
+		if((c == 'b'&& nptr[i]) || (c != 'b' && nptr[i] != ','))
+			return (-1);
 	}
 	return (nb * minus);
 }
