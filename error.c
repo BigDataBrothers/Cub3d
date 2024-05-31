@@ -6,15 +6,15 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:21:16 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/20 18:21:35 by myassine         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:29:20 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int err(char *str)
+int	err(char *str)
 {
-    while (*str)
-        write(2, str++, 1);
-    return (1);
+	while (*str)
+		write(2, str++, 1);
+	return (1);
 }

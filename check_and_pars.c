@@ -6,145 +6,96 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/28 19:50:36 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/01 00:19:48 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int len_no_space(char *str)
+int	set_setting(t_data *data)
 {
-	int res;
-	int i;
-
-	res = 0;
-	i = 0;
-	while(str[i] && is_space(str[i]))
-		i++;
-	while(str[i])
-	{
-		if(is_space(str[i]))
-		{
-			res++;
-			while(str[i] && is_space(str[i]))
-				i++;
-		}
-		res++;
-		i++;
-	}
-	return (res);
-}
-
-void	print_tab(char **tab)
-{
-	if (!tab)
-		return;
-	int	i;
-
-	i = -1;
-	while(tab[++i])
-		printf("tab[%d] = %s\n", i, tab[i]);
-}
-
-int set_setting(t_data *data)
-{
-	int 	x;
+	int		x;
 	char	*p;
 
 	x = 0;
 	p = NULL;
-	while(data->map[x])
+	while (data->map[x])
 	{
 		p = data->map[x];
-        while (*p && is_space(*p))
-            p++;
-		if ((!ft_strncmp(p, "NO ", 3) || !ft_strncmp(p, "NO\t", 3)) && data->no_texture == NULL)
+		while (*p && is_space(*p))
+			p++;
+		if ((!ft_strncmp(p, "NO ", 3) || !ft_strncmp(p, "NO\t", 3)) && \
+		data->no_texture == NULL)
 		{
 			data->no_texture = ft_strdup(p + 3);
 			if (!data->no_texture)
-				return (0);  // prévoir les free
-		}			
-		else if ((!ft_strncmp(p, "SO ", 3) || !ft_strncmp(p, "SO\t", 3)) && data->so_texture == NULL)
+				return (free_data (data), 0);
+		}
+		else if ((!ft_strncmp(p, "SO ", 3) || !ft_strncmp(p, "SO\t", 3)) && \
+		data->so_texture == NULL)
 		{
 			data->so_texture = ft_strdup(p + 3);
 			if (!data->so_texture)
-				return (0);  // prévoir les free
+				return (free_data (data), 0);
 		}
-		else if ((!ft_strncmp(p, "WE ", 3) || !ft_strncmp(p, "WE\t", 3)) && data->we_texture == NULL)
+		else if ((!ft_strncmp(p, "WE ", 3) || !ft_strncmp(p, "WE\t", 3)) && \
+		data->we_texture == NULL)
 		{
 			data->we_texture = ft_strdup(p + 3);
 			if (!data->we_texture)
-				return (0);  // prévoir les free
+				return (free_data (data), 0);
 		}
-		else if ((!ft_strncmp(p, "EA ", 3) || !ft_strncmp(p, "EA\t", 3)) && data->ea_texture == NULL)
+		else if ((!ft_strncmp(p, "EA ", 3) || !ft_strncmp(p, "EA\t", 3)) && \
+		data->ea_texture == NULL)
 		{
 			data->ea_texture = ft_strdup(p + 3);
 			if (!data->ea_texture)
-				return (0);  // prévoir les free	
+				return (free_data (data), 0);
 		}
-		else if (!ft_strncmp(p, "F ", 2) && (data->sol[0] == -1 && data->sol[1] == -1 && data->sol[2] == -1))
-        {
-            char *q = p + 2;
-            int r = ft_atoi(q, 'r');
-            q = ft_strchr(q, ',') + 1;
-            int g = ft_atoi(q, 'g');
-            q = ft_strchr(q, ',') + 1;
-            int b = ft_atoi(q, 'b');
-            if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-                return (err("Error\nRGB values must be between 0 and 255\n"),1);
-            data->sol[0] = r;
+		else if (!ft_strncmp(p, "F ", 2) && (data->sol[0] == -1 && \
+		data->sol[1] == -1 && data->sol[2] == -1))
+		{
+			char *q = p + 2;
+			int r = ft_atoi(q, 'r');
+			q = ft_strchr(q, ',') + 1;
+			int g = ft_atoi(q, 'g');
+			q = ft_strchr(q, ',') + 1;
+			int b = ft_atoi(q, 'b');
+			if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+				return (err("Error\nRGB values must be between 0 and 255\n"),1);
+			data->sol[0] = r;
 			data->sol[1] = g;
 			data->sol[2] = b;
-        }
-        else if (!ft_strncmp(p, "C ", 2) && (data->plafond[0] == -1 && data->plafond[1] == -1 && data->plafond[2] == -1))
-        {
-            char *q = p + 2;
-            int r = ft_atoi(q, 'r');
-            q = ft_strchr(q, ',') + 1;
-            int g = ft_atoi(q, 'g');
-            q = ft_strchr(q, ',') + 1;
-            int b = ft_atoi(q, 'b');
-            if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+		}
+		else if (!ft_strncmp(p, "C ", 2) && (data->plafond[0] == -1 && data->plafond[1] == -1 && data->plafond[2] == -1))
+		{
+			char *q = p + 2;
+			int r = ft_atoi(q, 'r');
+			q = ft_strchr(q, ',') + 1;
+			int g = ft_atoi(q, 'g');
+			q = ft_strchr(q, ',') + 1;
+			int b = ft_atoi(q, 'b');
+			if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
 				return (err("Error\nRGB values must be between 0 and 255\n"),1);
-            data->plafond[0] = r;
+			data->plafond[0] = r;
 			data->plafond[1] = g;
 			data->plafond[2] = b;
-        }
+		}
 		else if(data->no_texture != NULL && data->so_texture != NULL && data->ea_texture != NULL && data->we_texture != NULL &&
 			data->sol[0] != -1 && data->sol[1] != -1 && data->sol[2] != -1 && data->plafond[0] != -1 &&
 			data->plafond[1] != -1 && data->plafond[2] != -1)
 				return (++x);
 		else if(*p >= 33 && *p <= 126)
-			return(err("Error, Setting not good\n"), 0);
+			return (err ("Error, Setting not good\n"), 0);
 		x++;
 	}
 	if(data->no_texture != NULL && data->so_texture != NULL && data->ea_texture != NULL && data->we_texture != NULL &&
 			data->sol[0] != -1 && data->sol[1] != -1 && data->sol[2] != -1 && data->plafond[0] != -1 &&
 			data->plafond[1] != -1 && data->plafond[2] != -1)
-				return (printf(BACK_YELLOW"iii"RST"\n"), ++x);
-	printf(BACK_RED"iii"RST"\n");
-	return(err("Error, Setting not good\n"), 0);
+				return (++x);
+	return (err ("Error, Setting not good\n"), 0);
 }
 
-char	*set_back_n(char *str)
-{
-	int		i;
-	int		c;
-
-	i = -1;
-	c = 0;
-	while(str[++i])
-	{
-		if(str[i] == '\n' && str[i - 1] && str[i - 1] == '\n')
-		{
-			str[i] = '*';
-			// while(str[i] && str[i] == '\n')
-			// 	i++;
-		}
-	}
-	// free(str);
-	return (str);
-}
 
 int	first_map_line(char *s, char c)
 {
@@ -170,60 +121,6 @@ int	first_map_line(char *s, char c)
 	return (res);
 }
 
-int	check_char(char one_char)
-{
-	if(one_char == '0' || one_char == '1' || one_char == ' ' || one_char == '\t' \
-		|| one_char == 'N' || one_char == 'S' || one_char == 'E' || one_char == 'W')
-			return (0);
-	return (1);			
-}
-
-int	check_map(t_data *data)
-{
-	int		x;
-	int		y;
-
-	x = 0;
-	while(data->map[x])
-	{
-		y = 0;
-		while(data->map[x][y])
-		{
-			if(check_char(data->map[x][y]))
-				return(err("Error\n"), err("The following character is not authorized [0,1,N,S,E,W] != "), printf("[%c]\n", data->map[x][y]),1);
-			y++;
-		}
-		x++;
-	}
-	return (0);
-}
-
-int	check_player(t_data *data)
-{
-	int	x;
-	int	y;
-	int	p;
-
-	x = 0;
-	p = 0;
-	while(data->map[x])
-	{
-		y = 0;
-		while(data->map[x][y])
-		{
-			if(data->map[x][y] == 'N' || data->map[x][y] == 'S'|| data->map[x][y] == 'E' || data->map[x][y] == 'W')
-				p++;
-			if(p > 1)
-				return (err("Error\nThere can only be one player\n"), 0);
-			y++;
-		}
-		x++;
-	}
-	if(p == 0)
-		return(err("Error\nOne player is required\n"), 0);
-	return (1);
-}
-
 int	floodFill(char **arr, int x, int y)
 {
     if (x < 0 || x >= ft_tab_col_len(arr, y) || y < 0 || y >= ft_strlen(arr[x]))
@@ -238,14 +135,14 @@ int	floodFill(char **arr, int x, int y)
 	if (arr[x][y] == '0')
         arr[x][y] = '2';
 	if (floodFill(arr, x + 1, y) == 1)
-		return 1; // Bas
+		return (1);
     if (floodFill(arr, x - 1, y) == 1)
-		return 1; // Haut
+		return (1);
     if (floodFill(arr, x, y + 1) == 1)
-		return 1; // Droite
+		return (1);
     if (floodFill(arr, x, y - 1) == 1)
-		return 1; // Gauche
-    return 0;
+		return (1);
+    return (0);
 }
 
 int	pos_player(t_data *data)
@@ -268,31 +165,14 @@ int	pos_player(t_data *data)
 		x++;
 	}
 	data->map[x][y] = '3';
-	if (floodFill(data->map, x + 1, y) == 1)
-		return 1; // Bas
-    if (floodFill(data->map, x - 1, y) == 1)
-		return 1; // Haut
-    if (floodFill(data->map, x, y + 1) == 1)
-		return 1; // Droite
-    if (floodFill(data->map, x, y - 1) == 1)
-		return 1; // G
+	if (floodFill(data->map, x + 1, y) == 1 || \
+		floodFill(data->map, x - 1, y) == 1 || \
+		floodFill(data->map, x, y + 1) == 1 || \
+		floodFill(data->map, x, y - 1) == 1)
+		return (1);
 	return (0);
 }
 
-void	free_data(t_data *data)
-{
-	if(data->map)
-		free_tab(data->map);
-	if(data->no_texture)
-		free(data->no_texture);
-	if(data->so_texture)
-		free(data->so_texture);
-	if(data->we_texture)
-		free(data->we_texture);
-	if(data->ea_texture)
-		free(data->ea_texture);
-	free(data);
-}
 
 int check_and_pars(char **argv)
 {
@@ -323,6 +203,8 @@ int check_and_pars(char **argv)
 	data->map = ft_split_m(map_s, '\n');
 	if(!data->map)
 		return (1);
+	map_s -= tte;
+	free(map_s);
 	print_tab(data->map);
 	if(check_map(data))
 		return (1);
@@ -331,7 +213,6 @@ int check_and_pars(char **argv)
 	if(pos_player(data))
 		return (1);
 	print_tab(data->map);
-	// free_tab(data->map);
 	free_data(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: myassine <myassine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/20 18:16:48 by myassine          #+#    #+#              #
-#    Updated: 2024/05/20 19:10:24 by myassine         ###   ########.fr        #
+#    Updated: 2024/05/31 23:47:06 by myassine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,9 @@ SRC 		=	main.c \
 				check.c \
 				error.c \
 				toolbox.c \
+				toolbox_1.c \
+				toolbox_2.c \
+				toolbox_3.c \
 				fill_map.c \
 				init_data.c \
 				split.c \
