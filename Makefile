@@ -6,7 +6,7 @@
 #    By: myassine <myassine@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/20 18:16:48 by myassine          #+#    #+#              #
-#    Updated: 2024/05/31 23:47:06 by myassine         ###   ########.fr        #
+#    Updated: 2024/06/05 12:56:18 by myassine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ RM			= rm -f
 
 SRC 		=	main.c \
 				check_and_pars.c \
+				check_and_pars_1.c \
 				check.c \
 				error.c \
 				toolbox.c \
