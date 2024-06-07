@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/05 12:58:20 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:55:48 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_data
 	char	*ea_texture;
 	int		sol[3];
 	int		plafond[3];
+	int		x;
+	int		y;
 	char	**map;
 }	t_data;
 
@@ -130,6 +132,8 @@ int		ft_cntword(char *s, char c, int n);
 int		ft_cntword_2(char *s, char c, int n);
 int		len_no_space(char *str);
 void	print_tab(char **tab);
+void	data_xy(t_data *data, int x, int y);
+int		set_setting(t_data *data);
 
 int		is_wspace_line(char *str);
 //file_map

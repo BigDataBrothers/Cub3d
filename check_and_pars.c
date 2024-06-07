@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/05 12:56:09 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:56:34 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,19 @@ int	pos_player(t_data *data)
 	x = -1;
 	while (data->map[++x])
 	{
-		y = 0;
-		while (data->map[x][y])
+		y = -1;
+		while (data->map[x][++y])
 		{
 			if (data->map[x][y] == 'N' || data->map[x][y] == 'S' \
 			|| data->map[x][y] == 'E' || data->map[x][y] == 'W')
 				break ;
-			y++;
 		}
 		if (data->map[x][y] == 'N' || data->map[x][y] == 'S' \
 			|| data->map[x][y] == 'E' || data->map[x][y] == 'W')
 			break ;
 	}
 	data->map[x][y] = '3';
+	data_xy(data, x, y);
 	if (flood_fill(data->map, x + 1, y) == 1 \
 		|| flood_fill(data->map, x - 1, y) == 1 \
 		|| flood_fill(data->map, x, y + 1) == 1 \
@@ -115,7 +115,9 @@ int	check_and_pars_1(char *map_s, t_data *data, int x)
 	if (pos_player(data))
 		return (1);
 	print_tab(data->map);
+	printf("x = %d\ny = %d\n", data->x, data->y);
 	free_data(data);
+	return (0);
 }
 
 int	check_and_pars(char **argv)

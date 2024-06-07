@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:58:17 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/31 23:33:18 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:51:17 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	data_zero(t_data *a_data)
 	a_data->sol[0] = -1;
 	a_data->sol[1] = -1;
 	a_data->sol[2] = -1;
+	a_data->x = -1;
+	a_data->y = -1;
 	a_data->ea_texture = NULL;
 	a_data->no_texture = NULL;
 	a_data->we_texture = NULL;
