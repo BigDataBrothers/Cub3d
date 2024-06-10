@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:02:04 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 13:03:16 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:11:29 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	free_tab(char **tab)
 		}
 	}
 	free (tab);
+	tab = NULL;
 }
 
 void	ft_free(char **tab)
@@ -42,15 +43,16 @@ void	ft_free(char **tab)
 
 void	free_data(t_data *data)
 {
-	if (data->map)
-		free_tab (data->map);
 	if (data->no_texture)
 		free (data->no_texture);
+	data->no_texture = NULL;
 	if (data->so_texture)
 		free (data->so_texture);
+	data->so_texture = NULL;
 	if (data->we_texture)
 		free (data->we_texture);
+	data->we_texture = NULL;
 	if (data->ea_texture)
 		free (data->ea_texture);
-	free (data);
+	data->ea_texture = NULL;
 }

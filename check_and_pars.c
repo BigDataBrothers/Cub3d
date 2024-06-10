@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 13:08:29 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:10:19 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ int	check_and_pars_1(char *map_s, t_data *data, int x)
 
 	tte = first_map_line(map_s, '\n');
 	map_s += tte;
-	free_tab(data->map);
+	// if(data->map)
+		// free_tab(data->map);
+	// data->map = NULL;
 	if (x == 0)
 		return (1);
 	data->map = ft_split_m(map_s, '\n');
@@ -115,7 +117,8 @@ int	check_and_pars_1(char *map_s, t_data *data, int x)
 	if (pos_player(data))
 		return (1);
 	print_tab(data->map);
-	printf("x = %d\ny = %d\n", data->x, data->y);
+	free_tab(data->map);
+	// printf("x = %d\ny = %d\n", data->x, data->y);
 	free_data(data);
 	return (0);
 }
@@ -139,7 +142,9 @@ int	check_and_pars(char **argv)
 	if (!data->map)
 		return (free(map_s), free(data), 1);
 	x = set_setting(data);
+	// print_tab(data->map);
+	free_tab(data->map);
 	if (check_and_pars_1(map_s, data, x))
-		return (free (map_s) ,1);
-	return (0);
+		return (free (map_s) ,free(data) ,1);
+	return (free_data(data) ,free(data) ,0);
 }

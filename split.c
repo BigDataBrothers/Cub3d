@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:00:36 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 12:59:26 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:59:49 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,60 @@ void	ft_split_1(char *s, char c, t_split *split, int j)
 	return ;
 }
 
-void	ft_split_3(char *s, char c, t_split *split, int j)
-{
-	int		i;
-	char	**tmp1;
+// void	ft_split_3(char *s, char c, t_split *split, int j)
+// {
+// 	int		i;
+// 	char	**tmp1;
 
-	tmp1 = split->tmp;
-	while (j--)
-	{
-		while (*s && *s == c)
-			s++;
-		i = 0;
-		while (s[i] && s[i] != c)
-			i++;
-		*tmp1 = ft_substr(s, 0, i);
-		if (!tmp1++)
-			ft_free(split->dst);
-		while (*s && *s != c)
-			s++;
-	}
-	*tmp1 = NULL;
-	return ;
+// 	tmp1 = split->tmp;
+// 	while (j--)
+// 	{
+// 		while (*s && *s == c)
+// 			s++;
+// 		i = 0;
+// 		while (s[i] && s[i] != c)
+// 			i++;
+// 		*tmp1 = ft_substr(s, 0, i);
+// 		if (!tmp1++)
+// 			ft_free(split->dst);
+// 		while (*s && *s != c)
+// 			s++;
+// 	}
+// 	*tmp1 = NULL;
+// 	return ;
+// }
+
+void    ft_split_3(char *s, char c, t_split *split, int j)
+{
+    int     i;
+	int k = 0;
+    char    **tmp1;
+
+    tmp1 = split->tmp;
+    while (j--)
+    {
+        while (*s && *s == c)
+            s++;
+        i = 0;
+        while (s[i] && s[i] != c)
+            i++;
+        *tmp1 = ft_substr(s, 0, i);
+        if (*tmp1 == NULL) // Vérifie si l'allocation a échoué
+        {
+            ft_free(split->dst);
+            return; // Quitte la fonction en cas d'échec d'allocation
+        }
+        tmp1++;
+		k++; // Incrémente tmp1 pour pointer vers la prochaine case mémoire
+        while (*s && *s != c)
+            s++;
+    }
+    *tmp1 = NULL;
+	// printf(BLUE"k: %d"RESET"\n", k);
+	// split->dst[k] = NULL;
+    return;
 }
+
 
 char	**ft_split(char *s, char c)
 {

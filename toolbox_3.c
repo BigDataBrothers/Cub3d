@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:46:35 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/07 09:57:30 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:52:25 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	print_tab(char **tab)
 	i = -1;
 	while (tab[++i])
 		printf("tab[%d] = %s\n", i, tab[i]);
+	printf(BLUE"i: %d"RESET"\n", i);
 }
 
 void	data_xy(t_data *data, int x, int y)
