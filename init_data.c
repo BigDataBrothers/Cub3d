@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:58:17 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/07 09:51:17 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:27:18 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	data_zero(t_data *a_data)
 	a_data->no_texture = NULL;
 	a_data->we_texture = NULL;
 	a_data->so_texture = NULL;
+	a_data->pos = 0;
 }
 
 void	print_data(t_data *data)

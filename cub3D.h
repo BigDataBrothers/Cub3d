@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/07 09:55:48 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:23:15 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_data
 	int		plafond[3];
 	int		x;
 	int		y;
+	char	pos;
 	char	**map;
 }	t_data;
 

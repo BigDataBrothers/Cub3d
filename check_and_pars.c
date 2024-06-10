@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 14:10:19 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 14:32:10 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	pos_player(t_data *data)
 			|| data->map[x][y] == 'E' || data->map[x][y] == 'W')
 			break ;
 	}
+	data->pos = data->map[x][y];
 	data->map[x][y] = '3';
 	data_xy(data, x, y);
 	if (flood_fill(data->map, x + 1, y) == 1 \
@@ -93,15 +94,27 @@ int	pos_player(t_data *data)
 	return (0);
 }
 
+void	remap(t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = -1;
+	while(data->map[++x])
+	{
+		y = -1;
+		while(data->map[x][++y])
+			if(data->map[x][y] == '2')
+				data->map[x][y] = '0';
+	}
+}
+
 int	check_and_pars_1(char *map_s, t_data *data, int x)
 {
 	int	tte;
 
 	tte = first_map_line(map_s, '\n');
 	map_s += tte;
-	// if(data->map)
-		// free_tab(data->map);
-	// data->map = NULL;
 	if (x == 0)
 		return (1);
 	data->map = ft_split_m(map_s, '\n');
@@ -117,11 +130,14 @@ int	check_and_pars_1(char *map_s, t_data *data, int x)
 	if (pos_player(data))
 		return (1);
 	print_tab(data->map);
+	remap(data);
+	//
+	print_tab(data->map);
 	free_tab(data->map);
-	// printf("x = %d\ny = %d\n", data->x, data->y);
 	free_data(data);
 	return (0);
 }
+
 
 int	check_and_pars(char **argv)
 {
@@ -142,7 +158,6 @@ int	check_and_pars(char **argv)
 	if (!data->map)
 		return (free(map_s), free(data), 1);
 	x = set_setting(data);
-	// print_tab(data->map);
 	free_tab(data->map);
 	if (check_and_pars_1(map_s, data, x))
 		return (free (map_s) ,free(data) ,1);
