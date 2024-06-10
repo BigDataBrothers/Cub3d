@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 14:32:10 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:05:38 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,13 @@ int	check_and_pars_1(char *map_s, t_data *data, int x)
 	remap(data);
 	//
 	print_tab(data->map);
-	free_tab(data->map);
-	free_data(data);
+	// free_tab(data->map);
+	// free_data(data);
 	return (0);
 }
 
 
-int	check_and_pars(char **argv)
+t_data	*check_and_pars(char **argv)
 {
 	int		x;
 	char	*map_s;
@@ -149,17 +149,17 @@ int	check_and_pars(char **argv)
 	map_s = NULL;
 	map_s = fill_map_data(argv[1]);
 	if (!map_s)
-		return (1);
+		return (NULL);
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (free(map_s), 1);
+		return (free(map_s), NULL);
 	data_zero(data);
 	data->map = ft_split_m(map_s, '\n');
 	if (!data->map)
-		return (free(map_s), free(data), 1);
+		return (free(map_s), free(data), NULL);
 	x = set_setting(data);
 	free_tab(data->map);
 	if (check_and_pars_1(map_s, data, x))
-		return (free (map_s) ,free(data) ,1);
-	return (free_data(data) ,free(data) ,0);
+		return (free (map_s) ,free(data) ,NULL);
+	return (data);
 }

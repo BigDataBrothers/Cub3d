@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 14:23:15 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:05:15 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_data
 //main
 int		main(int argc, char **argv);
 //check_and_pars
-int		check_and_pars(char **argv);
+t_data	*check_and_pars(char **argv);
 int		check_and_pars_1(char *map_s, t_data *data, int x);
 int		validate_data(t_data *data);
 int		set_texture(char *p, char **texture);
