@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:00:36 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/31 23:41:47 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:59:26 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	**ft_split(char *s, char c)
 
 	if (!s)
 		return (NULL);
+	j = 0;
 	j = ft_cntword(s, c, 0);
 	if (j == -1)
 		return (NULL);

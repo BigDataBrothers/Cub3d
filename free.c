@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:02:04 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/01 00:07:32 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:03:16 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	free_tab(char **tab)
 			i++;
 		}
 	}
-	if (tab != NULL)
-		free (tab);
-	tab = NULL;
+	free (tab);
 }
 
 void	ft_free(char **tab)

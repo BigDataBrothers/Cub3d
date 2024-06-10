@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/07 09:56:34 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:08:29 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,13 +135,11 @@ int	check_and_pars(char **argv)
 	if (!data)
 		return (free(map_s), 1);
 	data_zero(data);
-	data->map = ft_split(map_s, '\n');
+	data->map = ft_split_m(map_s, '\n');
 	if (!data->map)
 		return (free(map_s), free(data), 1);
-	print_tab(data->map);
 	x = set_setting(data);
-	print_data(data);
 	if (check_and_pars_1(map_s, data, x))
-		return (1);
+		return (free (map_s) ,1);
 	return (0);
 }
