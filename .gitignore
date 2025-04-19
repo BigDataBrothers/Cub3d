@@ -1,0 +1,27 @@
+# Fichiers objets
+*.o
+*.ko
+*.obj
+*.elf
+
+# Bibliothèques
+*.a
+
+# Exécutables
+cub3D
+*.out
+*.exe
+
+# Fichiers de débogage
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Fichiers d'éditeur
+.vscode/
+*~
+\#*\#
+
+# Spécifiques au système d'exploitation
+.DS_Store

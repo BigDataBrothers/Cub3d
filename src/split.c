@@ -6,22 +6,46 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 19:00:36 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 13:59:49 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:08:41 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	ft_split_1(char *s, char c, t_split *split, int j)
+void	ft_split_3(char *s, char c, t_split *split, int j)
 {
 	int		i;
-	int		t;
+	int		max_len;
 	char	**tmp1;
 
-	t = 6;
-	(void)j;
 	tmp1 = split->tmp;
-	while (t--)
+	max_len = max_substr_len(s, c);
+	while (j--)
+	{
+		while (*s && *s == c)
+			s++;
+		i = 0;
+		while (s[i] && s[i] != c)
+			i++;
+		*tmp1 = ft_substr_with_padding(s, 0, i, max_len);
+		if (*tmp1 == NULL)
+			return (ft_free(split->dst));
+		tmp1++;
+		while (*s && *s != c)
+			s++;
+	}
+	*tmp1 = NULL;
+}
+
+void	ft_split_32(char *s, char c, t_split *split, int j)
+{
+	int		i;
+	int		k;
+	char	**tmp1;
+
+	k = 0;
+	tmp1 = split->tmp;
+	while (j--)
 	{
 		while (*s && *s == c)
 			s++;
@@ -29,8 +53,10 @@ void	ft_split_1(char *s, char c, t_split *split, int j)
 		while (s[i] && s[i] != c)
 			i++;
 		*tmp1 = ft_substr(s, 0, i);
-		if (!tmp1++)
-			ft_free(split->dst);
+		if (*tmp1 == NULL)
+			return (ft_free(split->dst));
+		tmp1++;
+		k++;
 		while (*s && *s != c)
 			s++;
 	}
@@ -38,78 +64,22 @@ void	ft_split_1(char *s, char c, t_split *split, int j)
 	return ;
 }
 
-// void	ft_split_3(char *s, char c, t_split *split, int j)
-// {
-// 	int		i;
-// 	char	**tmp1;
-
-// 	tmp1 = split->tmp;
-// 	while (j--)
-// 	{
-// 		while (*s && *s == c)
-// 			s++;
-// 		i = 0;
-// 		while (s[i] && s[i] != c)
-// 			i++;
-// 		*tmp1 = ft_substr(s, 0, i);
-// 		if (!tmp1++)
-// 			ft_free(split->dst);
-// 		while (*s && *s != c)
-// 			s++;
-// 	}
-// 	*tmp1 = NULL;
-// 	return ;
-// }
-
-void    ft_split_3(char *s, char c, t_split *split, int j)
-{
-    int     i;
-	int k = 0;
-    char    **tmp1;
-
-    tmp1 = split->tmp;
-    while (j--)
-    {
-        while (*s && *s == c)
-            s++;
-        i = 0;
-        while (s[i] && s[i] != c)
-            i++;
-        *tmp1 = ft_substr(s, 0, i);
-        if (*tmp1 == NULL) // Vérifie si l'allocation a échoué
-        {
-            ft_free(split->dst);
-            return; // Quitte la fonction en cas d'échec d'allocation
-        }
-        tmp1++;
-		k++; // Incrémente tmp1 pour pointer vers la prochaine case mémoire
-        while (*s && *s != c)
-            s++;
-    }
-    *tmp1 = NULL;
-	// printf(BLUE"k: %d"RESET"\n", k);
-	// split->dst[k] = NULL;
-    return;
-}
-
-
-char	**ft_split(char *s, char c)
+char	**ft_split_m2(char *s, char c)
 {
 	int			j;
 	t_split		split;	
 
 	if (!s)
 		return (NULL);
-	j = 0;
-	j = ft_cntword(s, c, 0);
+	j = ft_cntword_2(s, c, 0);
 	if (j == -1)
 		return (NULL);
-	split.tmp = malloc((j + 1) * sizeof(char *));
+	split.tmp = malloc(sizeof(char *) * (j + 1));
 	if (!split.tmp)
 		return (NULL);
 	split.tmp[j] = 0;
 	split.dst = split.tmp;
-	ft_split_1(s, c, &split, j);
+	ft_split_32(s, c, &split, j);
 	return (split.dst);
 }
 

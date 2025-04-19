@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:46:01 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/31 23:51:35 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:58:27 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	ft_atoi(char *nptr, char c)
 	i = 0;
 	nb = 0;
 	minus = 1;
-	i = skip_space(nptr, i);
+	while (nptr[i] && is_space(nptr[i]))
+		i++;
 	if (nptr[i] == '\0' || !ft_isdigit(nptr[i]))
 		return (-1);
 	while ((nptr[i]) && (nptr[i] >= '0' && nptr[i] <= '9'))

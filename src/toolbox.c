@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:28:23 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/31 23:49:33 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:59:51 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_tab_col_len(char **tab, int y)
 		return (0);
 	while (tab[x])
 	{
-		if (ft_strlen(tab[x]) < y)
+		if (tab[x] == NULL || ft_strlen(tab[x]) < y)
 			break ;
 		x++;
 	}

@@ -6,13 +6,13 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:17:44 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 16:05:15 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 19:58:11 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-# include "minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <X11/keysym.h>
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stddef.h>
+# include <math.h>
 
 // color
 # define BLACK "\033[0;30m"
@@ -75,6 +76,11 @@
 # define RESET "\033[0m"
 # define RST "\033[0m"
 
+# define WIN_WIDTH 1200
+# define WIN_HEIGHT 800
+# define MOVE_SPEED 0.075
+# define ROT_SPEED 0.05
+
 typedef struct s_split
 {
 	char	**tmp;
@@ -95,11 +101,88 @@ typedef struct s_data
 	char	**map;
 }	t_data;
 
+typedef struct s_ray {
+	double	posx;
+	double	posy;
+	double	dirx;
+	double	diry;
+	double	planex;
+	double	planey;
+	int		x;
+	int		y;
+	int		mapx;
+	int		mapy;
+	double	camx;
+	double	raydx;
+	double	raydy;
+	double	sidedx;
+	double	sidedy;
+	double	deltadx;
+	double	deltady;
+	double	perpwalldist;
+	int		stepx;
+	int		stepy;
+	int		hit;
+	int		side;
+	int		lineh;
+	int		dstart;
+	int		dend;
+	int		color;
+	char	p_dir;
+}	t_ray;
+
+typedef struct s_vars {
+	void	*mlx;
+	void	*win;
+	void	*img_buffer;
+	char	*img_data_buffer;
+	t_ray	ray;
+	t_data	*map;
+	void	*img;
+	char	*img_data;
+	int		bpp;
+	int		size_line;
+	int		endian;
+
+	void	*tex_north;
+	void	*tex_south;
+	void	*tex_east;
+	void	*tex_west;
+	char	*tex_data_north;
+	char	*tex_data_south;
+	char	*tex_data_east;
+	char	*tex_data_west;
+	int		tex_width;
+	int		tex_height;
+	int		tex_bpp;
+	int		tex_size_line;
+	int		tex_endian;
+	int		ceiling_color;
+	int		floor_color;
+}	t_vars;
+
+typedef struct s_texture_pixel {
+	int		x;
+	int		y;
+	int		tex_x;
+	int		tex_y;
+	char	*tex_data;
+}	t_texture_pixel;
+
+typedef struct s_texture_params {
+	int		tex_x;
+	int		tex_y;
+	double	step;
+	double	texpos;
+}	t_texture_params;
+
 
 //main
 int		main(int argc, char **argv);
+char	*remove_trailing_spaces(char *str);
+char	*remove_leading_spaces(char *str);
 //check_and_pars
-t_data	*check_and_pars(char **argv);
+t_data	*check_and_pars(char **argv, t_vars *vars);
 int		check_and_pars_1(char *map_s, t_data *data, int x);
 int		validate_data(t_data *data);
 int		set_texture(char *p, char **texture);
@@ -108,6 +191,7 @@ int		parse_line(t_data *data, char *p);
 int		first_map_line(char *s, char c);
 int		flood_fill(char **arr, int x, int y);
 int		pos_player(t_data *data);
+void	free_data_1(t_data *data);
 //check
 int		check_argc(int argc);
 int		check_map_name(char *name, char *ext);
@@ -116,8 +200,11 @@ int		check_map(t_data *data);
 int		check_player(t_data *data);
 //error
 int		err(char *str);
+void	remap(t_data *data);
+void	a1(t_data *data, int x, int y);
 //toolbox
 int		ft_strlen(char *str);
+char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strjoin(char *s1, char *s2);
 void	ft_bzero(void *s, size_t n);
 char	*ft_substr(char *s, unsigned int start, size_t len);
@@ -135,7 +222,9 @@ int		len_no_space(char *str);
 void	print_tab(char **tab);
 void	data_xy(t_data *data, int x, int y);
 int		set_setting(t_data *data);
-
+void	*ft_memset(void *b, int c, size_t len);
+char	*ft_substr_with_padding(char *s, int start, int len, int max_len);
+int		max_substr_len(char *s, char c);
 int		is_wspace_line(char *str);
 //file_map
 char	*fill_map_data(char *file);
@@ -146,11 +235,40 @@ void	data_zero(t_data *a_data);
 char	**ft_split(char *s, char c);
 char	**ft_split_m(char *s, char c);
 void	ft_split_1(char *s, char c, t_split *split, int j);
-void	ft_split_3(char  *s, char c, t_split *split, int j);
+void	ft_split_3(char *s, char c, t_split *split, int j);
+char	**ft_split_m2(char *s, char c);
 void	print_data(t_data *data);
 //Free
 void	ft_free(char **tab);
-void	free_tab(char **tab);
-void	free_data(t_data *data);
-
+char	**free_tab(char **tab);
+void	free_data(t_vars *data);
+//game
+void	perform_raycasting(t_vars *vars);
+void	put_pixel(t_vars *vars, int x, int y, int color);
+void	load_textures(t_vars *vars);
+void	put_texture_pixel(t_vars *vars, t_texture_pixel *pixel);
+void	draw_cell_floor(t_vars *vars, int ceiling_color, int floor_color);
+void	select_texture(t_vars *vars, char **tex_data, double *wallX);
+void	draw_texture(t_vars *vars, int x, char *tex_data, double wallX);
+void	calculate_ray_direction(t_vars *vars, int x);
+void	calculate_step_and_initial_side_dist(t_vars *vars);
+void	perform_dda(t_vars *vars);
+void	calculate_perp_wall_dist(t_vars *vars);
+void	calculate_line_height_and_draw_positions(t_vars *vars);
+int		close_window(t_vars *vars);
+void	set_initial_direction(t_ray *ray);
+void	init_direction(t_vars *vars);
+void	error(char *message, t_vars *vars);
+int		key_press(int keycode, t_vars *vars);
+int		rgb_to_hex(int rgb[3]);
+void	free_images(t_vars *vars);
+void	free_textures(t_vars *vars);
+int		key_press(int keycode, t_vars *vars);
+void	move_forward(t_vars *vars);
+void	move_backward(t_vars *vars);
+void	move_left(t_vars *vars);
+void	move_right(t_vars *vars);
+void	rotate_left(t_vars *vars);
+void	rotate_right(t_vars *vars);
+void    ft_free_elem(void **elem);
 #endif

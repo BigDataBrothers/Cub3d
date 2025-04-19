@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:43:03 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/31 23:28:36 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:04:32 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*fill_map_data2(int *rd, int fd, char *map, char *buff)
 		tmp = ft_strjoin(tmp, buff);
 		if (!tmp)
 		{
-			free(map);
+			ft_free_elem((void **)&map);
 			close(fd);
 			return (NULL);
 		}

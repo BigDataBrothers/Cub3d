@@ -6,35 +6,46 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:46:35 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 13:52:25 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:59:25 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	ft_cntword_2(char *s, char c, int n)
+int	is_line_empty(char *s, char c)
 {
-	char	*cmp;
-
-	while (*s && *s == c)
-		s++;
 	while (*s)
 	{
-		cmp = s;
-		cmp++;
-		if (*s && *s == c && *cmp && *cmp == c)
-		{
-			while (*cmp && (*cmp == c || is_space(*cmp)))
-				cmp++;
-			if (!*cmp)
-				return (n);
-			return (err("Error\nMap not good\n"), -1);
-		}
-		else if (*s && *s == c)
+		if (*s != c && *s != ' ' && *s != '\t' && *s != '\n')
+			return (0);
+		s++;
+	}
+	return (1);
+}
+
+int	ft_cntword_2(char *s, char c, int n)
+{
+	if (!s)
+		return (-1);
+	while (*s)
+	{
+		while (*s && (*s == c || *s == ' ' || *s == '\t'))
 			s++;
-		if (*s && *s != c)
+		if (is_line_empty(s, c))
+		{
+			while (*s && *s != '\n')
+				s++;
+			if (*s == '\n')
+				s++;
+			continue ;
+		}
+		if (*s && *s != c && *s != ' ' && *s != '\t')
+		{
 			n++;
-		while (*s && *s != c)
+			while (*s && *s != c && *s != ' ' && *s != '\t')
+				s++;
+		}
+		while (*s && (*s == c || *s == ' ' || *s == '\t'))
 			s++;
 	}
 	return (n);
@@ -75,8 +86,14 @@ void	print_tab(char **tab)
 	printf(BLUE"i: %d"RESET"\n", i);
 }
 
-void	data_xy(t_data *data, int x, int y)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	data->x = x;
-	data->y = y;
+	void	*ob;
+	size_t	i;
+
+	ob = b;
+	i = 0;
+	while (++i <= len)
+		*(unsigned char *)b++ = (unsigned char)c;
+	return ((void *)ob);
 }

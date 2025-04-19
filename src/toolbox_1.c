@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 23:44:27 by myassine          #+#    #+#             */
-/*   Updated: 2024/05/31 23:50:13 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:42:10 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_strncmp(char *s1, char *s2, int len)
 		return (1);
 	if (!s1 && !s2)
 		return (0);
-	while (s1[i] || s2[i])
+	while (s1[i] && s2[i])
 	{
 		if (s1[i] != s2[i])
 			return (1);
@@ -64,5 +64,9 @@ int	ft_strncmp(char *s1, char *s2, int len)
 		if (len == 0)
 			return (0);
 	}
+	if (!s1[i] && s2[i])
+		return (1);
+	if (s1[i] && !s2[i])
+		return (1);
 	return (0);
 }

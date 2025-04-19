@@ -6,7 +6,7 @@
 /*   By: myassine <myassine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:39:45 by myassine          #+#    #+#             */
-/*   Updated: 2024/06/10 16:05:38 by myassine         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:08:30 by myassine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ int	pos_player(t_data *data)
 			|| data->map[x][y] == 'E' || data->map[x][y] == 'W')
 			break ;
 	}
-	data->pos = data->map[x][y];
-	data->map[x][y] = '3';
-	data_xy(data, x, y);
+	a1(data, x, y);
 	if (flood_fill(data->map, x + 1, y) == 1 \
 		|| flood_fill(data->map, x - 1, y) == 1 \
 		|| flood_fill(data->map, x, y + 1) == 1 \
@@ -94,24 +92,10 @@ int	pos_player(t_data *data)
 	return (0);
 }
 
-void	remap(t_data *data)
-{
-	int	x;
-	int	y;
-
-	x = -1;
-	while(data->map[++x])
-	{
-		y = -1;
-		while(data->map[x][++y])
-			if(data->map[x][y] == '2')
-				data->map[x][y] = '0';
-	}
-}
-
 int	check_and_pars_1(char *map_s, t_data *data, int x)
 {
 	int	tte;
+	char *original_map_s = map_s; 
 
 	tte = first_map_line(map_s, '\n');
 	map_s += tte;
@@ -121,25 +105,18 @@ int	check_and_pars_1(char *map_s, t_data *data, int x)
 	if (!data->map)
 		return (1);
 	map_s -= tte;
-	free(map_s);
-	print_tab(data->map);
+	ft_free_elem((void **)&original_map_s);
 	if (check_map(data))
 		return (1);
 	if (!check_player(data))
 		return (1);
 	if (pos_player(data))
 		return (1);
-	print_tab(data->map);
 	remap(data);
-	//
-	print_tab(data->map);
-	// free_tab(data->map);
-	// free_data(data);
 	return (0);
 }
 
-
-t_data	*check_and_pars(char **argv)
+t_data	*check_and_pars(char **argv, t_vars *vars)
 {
 	int		x;
 	char	*map_s;
@@ -148,18 +125,22 @@ t_data	*check_and_pars(char **argv)
 	x = 0;
 	map_s = NULL;
 	map_s = fill_map_data(argv[1]);
-	if (!map_s)
+	if (!map_s || !*map_s)
 		return (NULL);
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (free(map_s), NULL);
+		return (ft_free_elem((void **)&map_s), NULL);
 	data_zero(data);
-	data->map = ft_split_m(map_s, '\n');
+	data->map = ft_split_m2(map_s, '\n');
 	if (!data->map)
-		return (free(map_s), free(data), NULL);
+		return (ft_free_elem((void **)&map_s), \
+			ft_free_elem((void **)&data), NULL);
 	x = set_setting(data);
-	free_tab(data->map);
+	if (x == 0)
+		return (ft_free_elem((void **)&map_s), NULL);
+	data->map = free_tab(data->map);
 	if (check_and_pars_1(map_s, data, x))
-		return (free (map_s) ,free(data) ,NULL);
+		return (free_data_1(data), NULL);
+	(void)vars;
 	return (data);
 }
