@@ -1,8 +1,13 @@
 # Cub3D
 
-![École 42](https://img.shields.io/badge/École-42-blue)
-![Language](https://img.shields.io/badge/Language-C-green)
+[![École 42](https://img.shields.io/badge/%C3%89cole-42-blue)](https://42.fr)
+![Langage](https://img.shields.io/badge/Language-C-green)
 ![MiniLibX](https://img.shields.io/badge/Library-MiniLibX-orange)
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+![Platform](https://img.shields.io/badge/Platform-Linux-lightgrey)
+![Graphics](https://img.shields.io/badge/Graphics-X11-informational)
+![Build](https://img.shields.io/badge/Build-Makefile-blue)
+![License](https://img.shields.io/badge/License-42%20School-lightblue)
 
 Un moteur de raycasting 3D inspiré de Wolfenstein 3D, utilisant la bibliothèque MiniLibX.
 
