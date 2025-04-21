@@ -109,4 +109,4 @@ C 225,30,0
 
 ## Licence
 
-Ce projet est réalisé dans le cadre du cursus de l'école 42. Il est soumis à ses politiques académiques et ne peut être utilisé à des fins commerciales ou éducatives sans autorisation.
+> ℹ️ Ce projet est réalisé dans le cadre du cursus de l'école 42. Il est soumis à ses politiques académiques et ne peut être utilisé à des fins commerciales ou éducatives sans autorisation.
